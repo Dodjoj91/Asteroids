@@ -15,4 +15,8 @@ MonoBehaviour:
   sprite: {fileID: -2413806693520163455, guid: b6a41b5621981aa42918b2ca54fb9d96, type: 3}
   spriteColor: {r: 1, g: 0, b: 0, a: 1}
   score: 20
-  speed: 1.5
+  shootingSpeed: 1
+  minSpeed: 1
+  maxSpeed: 1.5
+  enemyType: 1
+  maxShootTimer: 2

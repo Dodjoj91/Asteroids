@@ -1,18 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit : MonoBehaviour, IUnit
 {
-    [SerializeField] protected UnitData unitData;
+    #region Variables
 
-    [SerializeField] protected Rigidbody2D rigidBody;
-    [SerializeField] protected BoxCollider2D boxCollider2d;
-    [SerializeField] protected SpriteRenderer spriteRenderer;
+    protected UnitData unitData;
+    protected Rigidbody2D rigidBody;
+    protected BoxCollider2D boxCollider2d;
+    protected SpriteRenderer spriteRenderer;
+
+    protected float speed = 1.0f;
+    Vector2 boxSize;
+
+    #endregion
+
+    #region Properties
 
     public UnitData UnitData { get { return unitData; } set { unitData = value; } }
 
-    Vector2 boxSize;
+    protected UnitDataPlayer UnitDataPlayer 
+    {
+        get
+        {
+            if (unitData is UnitDataPlayer) { return unitData as UnitDataPlayer; }
+            return null;
+        }
+    }
+
+    protected UnitDataEnemy UnitDataEnemy
+    {
+        get
+        {
+            if (unitData is UnitDataEnemy) { return unitData as UnitDataEnemy; }
+            return null;
+        }
+    }
+
+    #endregion
+
+    #region Unity Functions
 
     protected virtual void Start()
     {
@@ -24,6 +50,8 @@ public class Unit : MonoBehaviour, IUnit
 
         spriteRenderer.sprite = unitData.sprite;
         spriteRenderer.color = unitData.spriteColor;
+
+        speed = Random.Range(unitData.minSpeed, unitData.maxSpeed);
     }
 
     protected virtual void Update()
@@ -31,15 +59,36 @@ public class Unit : MonoBehaviour, IUnit
         TeleportOutsideBoundaries();
     }
 
-    public void Attack(int amount)
-    {
+    #endregion
 
+    #region Interface
+
+    public void Hit()
+    {
+        AddScore();
     }
 
-    public void Hit(int amount)
+    public void ReturnObject()
     {
-
+        if (unitData != null)
+        {
+            if (unitData is UnitDataEnemy)
+            {
+                UnitDataEnemy unitEnemyData = unitData as UnitDataEnemy;
+                ManagerSystem.Instance.GameManager.RemoveEnemy(unitEnemyData.enemyType, gameObject);
+                ObjectPoolManager.Instance.ReturnObject(ExtensionUtility.ConvertEnemyTypeToObjectType(unitEnemyData.enemyType), gameObject);
+            }
+            else if (unitData is UnitDataPlayer)
+            {
+                UnitDataPlayer unitPlayerData = unitData as UnitDataPlayer;
+                ObjectPoolManager.Instance.ReturnObject(ExtensionUtility.ConvertPlayerTypeToObjectType(unitPlayerData.playerType), gameObject);
+            }
+        }
     }
+
+    #endregion
+
+    #region Undefined
 
     protected void AddScore()
     {
@@ -76,44 +125,6 @@ public class Unit : MonoBehaviour, IUnit
             transform.position = newPos;
         }
     }
-    bool IsOutsideViewport()
-    {
-        // Get the object's position in screen coordinates
-        Vector3 viewportPosition = Camera.main.WorldToViewportPoint(transform.position);
 
-        // Calculate the bounds considering the collider's size
-        float halfWidth = boxSize.x * 0.5f;
-        float halfHeight = boxSize.y * 0.5f;
-
-        // Check if the object is outside the viewport
-        return (viewportPosition.x < -halfWidth || viewportPosition.x > 1 + halfWidth ||
-                viewportPosition.y < -halfHeight || viewportPosition.y > 1 + halfHeight);
-    }
-
-    void TeleportToOtherSide()
-    {
-        // Get the main camera's position
-        Vector3 cameraPosition = Camera.main.transform.position;
-
-        // Calculate the new position on the opposite side
-        Vector3 newPosition = transform.position;
-
-        // Calculate the bounds considering the collider's size
-        float halfWidth = boxSize.x * 0.5f;
-        float halfHeight = boxSize.y * 0.5f;
-
-        if (transform.position.x < Camera.main.transform.position.x)
-        {
-            newPosition.x = cameraPosition.x + Camera.main.orthographicSize * Camera.main.aspect + halfWidth;
-        }
-        else
-        {
-            newPosition.x = cameraPosition.x - Camera.main.orthographicSize * Camera.main.aspect - halfWidth;
-        }
-
-        newPosition.y = cameraPosition.y; // Keep the same y-position
-
-        // Teleport the object to the new position
-        transform.position = newPosition;
-    }
+    #endregion
 }

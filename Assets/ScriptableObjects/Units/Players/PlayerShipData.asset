@@ -9,10 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e0843c2abb26bf46b9f21c84bf08be2, type: 3}
+  m_Script: {fileID: 11500000, guid: ade015d48d5f0834c9814ad84e116e93, type: 3}
   m_Name: PlayerShipData
   m_EditorClassIdentifier: 
   sprite: {fileID: -9095717837082945937, guid: daf9c4bf88ffee74f875b6b6f9c71991, type: 3}
   spriteColor: {r: 1, g: 1, b: 1, a: 1}
   score: -10
-  speed: 1.5
+  shootingSpeed: 2.5
+  minSpeed: 1.5
+  maxSpeed: 1.5
+  playerType: 0
+  maxFireRateCooldown: 0.1
+  maxInvincibilityTimer: 3
+  rotationSpeed: 600

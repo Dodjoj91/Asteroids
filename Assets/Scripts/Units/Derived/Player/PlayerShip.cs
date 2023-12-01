@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 public class PlayerShip : Unit
 {
     [SerializeField] Transform bulletSpawnTransform;
+    UnitDataPlayer playerData;
 
     InputHandler inputHandler;
     
@@ -13,16 +14,22 @@ public class PlayerShip : Unit
     float fadeBlinkTimer = 0.0f;
     float fadeBlinkMaxTimer = 0.0f;
     float alphaColorValue = 1.0f;
-    float invincibilityTimer = 0.0f;
-    float rotationSpeed = 400.0f;
-    float thrust = 2.0f;
-    float shootingSpeed = 2.5f;
 
-    [SerializeField] float maxInvincbilityTimer = 3.0f;
+    float invincibilityTimer = 0.0f;
+    float fireRateCooldownTimer = 0.0f;
 
 
     protected override void Start()
     {
+        playerData = UnitDataPlayer;
+
+        if (playerData == null)
+        {
+            Debug.LogError("Couldn't read player data");
+            ReturnObject();
+            return;
+        }
+
         base.Start();
         inputHandler.ShootingActionRef.action.performed += Shoot;
     }
@@ -30,6 +37,8 @@ public class PlayerShip : Unit
     protected override void Update()
     {
         base.Update();
+
+        if (fireRateCooldownTimer > 0.0f) { fireRateCooldownTimer -= Time.deltaTime; }
         UpdateInvincibilityTimer();
         UpdateMovement();
     }
@@ -48,27 +57,30 @@ public class PlayerShip : Unit
             if (inputHandler.IsRotatingLeft) { rotationX += -1.0f; }
             if (inputHandler.IsRotatingRight) { rotationX += 1.0f; }
 
-            rigidBody.AddForce(transform.up * forward * thrust);
+            rigidBody.AddForce(transform.up * forward * speed);
 
             if (rotationX != 0.0f)
             {
-                float targetRotation = rigidBody.rotation - rotationX * rotationSpeed * Time.deltaTime;
+                float targetRotation = rigidBody.rotation - rotationX * playerData.rotationSpeed * Time.deltaTime;
                 rigidBody.MoveRotation(targetRotation);
             }
 
-            if (rigidBody.velocity.magnitude > thrust)
+            if (rigidBody.velocity.magnitude > speed)
             {
-                rigidBody.velocity = rigidBody.velocity.normalized * thrust;
+                rigidBody.velocity = rigidBody.velocity.normalized * speed;
             }
         }
     }
 
     private void Shoot(UnityEngine.InputSystem.InputAction.CallbackContext callback)
     {
+        if (fireRateCooldownTimer > 0) { return; }
+
         GameObject bulletObj = ObjectPoolManager.Instance.GetPooledObject(EObjectPooling.Bullet);
         bulletObj.transform.position = bulletSpawnTransform.position;
         Bullet bulletComp = bulletObj.GetComponent<Bullet>();
-        bulletComp.SetBulletVariables(transform.up, LayerMask.NameToLayer(StaticDefines.LAYER_ENEMY), LayerMask.NameToLayer(StaticDefines.LAYER_PLAYER), shootingSpeed);
+        bulletComp.SetBulletVariables(transform.up, LayerMask.NameToLayer(StaticDefines.LAYER_ENEMY), LayerMask.NameToLayer(StaticDefines.LAYER_PLAYER), playerData.shootingSpeed);
+        fireRateCooldownTimer = playerData.maxFireRateCooldown;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -77,10 +89,11 @@ public class PlayerShip : Unit
         if (collision.CompareTag(StaticDefines.TAG_BULLET) || collision.CompareTag(StaticDefines.TAG_ENEMY))
         {
             Hit();
+            DestroyShip();
         }
     }
 
-    private void Hit()
+    private void DestroyShip()
     {
         AddScore();
         ManagerSystem.Instance.GameManager.AddLife(-1);
@@ -88,8 +101,8 @@ public class PlayerShip : Unit
         if (ManagerSystem.Instance.GameManager.GetLives() > 0)
         {
             alphaColorValue = 0.0f;
-            fadeBlinkMaxTimer = maxInvincbilityTimer / fadeBlinkTimes;
-            invincibilityTimer = maxInvincbilityTimer;
+            fadeBlinkMaxTimer = playerData.maxInvincibilityTimer / fadeBlinkTimes;
+            invincibilityTimer = playerData.maxInvincibilityTimer;
             rigidBody.velocity = Vector3.zero;
             ManagerSystem.Instance.GameManager.SetObjectPositionOnAvailableSpot(boxCollider2d);
         }

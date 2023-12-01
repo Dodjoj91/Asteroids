@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: -7869426861539481490}
   - component: {fileID: -4445061085010541653}
   - component: {fileID: 3672501042556307496}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bullet
-  m_TagString: Undefined
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,7 +156,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

@@ -3,6 +3,7 @@ public enum EGameState : short
 {
     StartingGame,
     Playing,
+    EndingGame,
     Paused
 }
 
@@ -26,4 +27,9 @@ public enum EEnemyType : short
 {
     Asteroid,
     FlyingSaucer
+}
+
+public enum EPlayerType : short
+{
+    PlayerShip
 }

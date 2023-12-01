@@ -9,14 +9,9 @@ public class Bullet : MonoBehaviour
     Vector3 direction = Vector3.zero;
     float speed = 2.5f;
 
-
-    public void SetBulletVariables(Vector3 direction, int includeLayers, int excludeLayers, float speed)
+    private void OnEnable()
     {
-        this.direction = direction;
-        this.speed = speed;
-
-        boxCollider2D.includeLayers = 1 << includeLayers;
-        boxCollider2D.excludeLayers = 1 << excludeLayers;
+        ManagerSystem.Instance.GameManager.SetBullet(this, false);
     }
 
     void Update()
@@ -57,5 +52,14 @@ public class Bullet : MonoBehaviour
     {
         ResetVariables();
         ObjectPoolManager.Instance.ReturnObject(EObjectPooling.Bullet, gameObject);
+        ManagerSystem.Instance.GameManager.SetBullet(this, true);
+    }
+    public void SetBulletVariables(Vector3 direction, int includeLayers, int excludeLayers, float speed)
+    {
+        this.direction = direction;
+        this.speed = speed;
+
+        boxCollider2D.includeLayers = 1 << includeLayers;
+        boxCollider2D.excludeLayers = (1 << excludeLayers) | (1 << LayerMask.NameToLayer(StaticDefines.LAYER_BULLET));
     }
 }

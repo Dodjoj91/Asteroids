@@ -1,6 +1,4 @@
 
-using System;
-
 public interface IUnit
 {
     public void Hit();

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GUIManager : Manager
 {
+    #region Variables
+
     [SerializeField] TMP_Text endingPrompt;
     [SerializeField] TMP_Text scoreAmount;
     [SerializeField] TMP_Text scoreText;
@@ -13,12 +15,20 @@ public class GUIManager : Manager
     const string WinningString = "You won, next round starting soon!";
     const string LoseString = "You Lost!";
 
+    #endregion
+
+    #region Unity Functions
+
     private void Start()
     {
         ManagerSystem.Instance.GameManager.ScoreDelegate += SetScore;
         ManagerSystem.Instance.GameManager.LivesDelegate += SetLives;
         ManagerSystem.Instance.GameManager.EndingDelegate += ShowEndingPrompt;
     }
+
+    #endregion
+
+    #region Delegate Functions
 
     private void SetScore(int score)
     {
@@ -40,4 +50,6 @@ public class GUIManager : Manager
         endingPrompt.gameObject.SetActive(shouldShow);
         endingPrompt.text = winningState ? WinningString : LoseString;
     }
+
+    #endregion
 }

@@ -15,7 +15,7 @@ public class UnitData : ScriptableObject
     public float maxSpeed;
 }
 
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(UnitData))]
 public class UnitDataEditor : Editor
 {
@@ -50,3 +50,4 @@ public class UnitDataEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 }
+#endif

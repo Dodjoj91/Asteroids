@@ -4,6 +4,8 @@ using UnityEngine.Pool;
 
 public class ObjectPoolManager : Manager
 {
+    #region Variables
+
     static ObjectPoolManager instance = null;
 
     [SerializeField] private Transform rootObjectPool;
@@ -18,7 +20,15 @@ public class ObjectPoolManager : Manager
 
     Dictionary<EObjectPooling, ObjectPool<GameObject>> pools;
 
+    #endregion
+
+    #region Properties
+
     static public ObjectPoolManager Instance { get { return instance; } }
+
+    #endregion
+
+    #region Unity Functions
 
     private void Awake()
     {
@@ -29,10 +39,14 @@ public class ObjectPoolManager : Manager
         pools[EObjectPooling.PlayerShip] = new ObjectPool<GameObject>(CreateShip, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
         pools[EObjectPooling.Asteroid] = new ObjectPool<GameObject>(CreateAsteroid, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
         pools[EObjectPooling.FlyingSaucer] = new ObjectPool<GameObject>(CreateFlyingSaucer, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
-        pools[EObjectPooling.Bullet] = new ObjectPool<GameObject>(CreateBullet, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
+        pools[EObjectPooling.Bullet] = new ObjectPool<GameObject>(CreateBullet, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, 50);
         pools[EObjectPooling.InputHandler] = new ObjectPool<GameObject>(CreateInputHandler, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, 1, 1);
-        pools[EObjectPooling.ExplosionParticle] = new ObjectPool<GameObject>(CreateExplosionParticle, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, 1, 1);
+        pools[EObjectPooling.ExplosionParticle] = new ObjectPool<GameObject>(CreateExplosionParticle, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
     }
+
+    #endregion
+
+    #region Pool Functions
 
     public GameObject GetPooledObject(EObjectPooling objectPoolType)
     {
@@ -46,15 +60,17 @@ public class ObjectPoolManager : Manager
     {
         if (returnObj == null || returnObj.transform.parent == rootObjectPool) { return; }
 
-        if (pools.ContainsKey(objectPoolType)) 
+        if (pools.ContainsKey(objectPoolType))
         {
-            pools[objectPoolType].Release(returnObj); 
+            pools[objectPoolType].Release(returnObj);
         }
         else
         {
             Destroy(returnObj);
         }
     }
+
+    #region Create Functions
 
     private GameObject CreateShip()
     {
@@ -83,10 +99,15 @@ public class ObjectPoolManager : Manager
 
     private GameObject CreateExplosionParticle()
     {
-        GameObject instantiatedObject =  Instantiate(explosionParticlePrefab.gameObject);
-        instantiatedObject.AddComponent<ParticlePool>();
+        GameObject instantiatedObject = Instantiate(explosionParticlePrefab.gameObject);
+        ParticlePool particlePool = instantiatedObject.AddComponent<ParticlePool>();
+        if (instantiatedObject.TryGetComponent<ParticleSystem>(out ParticleSystem partSys)) { particlePool.AttachParticleSystem(partSys); }
         return instantiatedObject;
     }
+
+    #endregion
+
+
     void OnReturnedToPool<T>(T poolObject)
     {
         if (poolObject is GameObject)
@@ -115,4 +136,6 @@ public class ObjectPoolManager : Manager
             Destroy((poolObject as GameObject));
         }
     }
+
+    #endregion
 }

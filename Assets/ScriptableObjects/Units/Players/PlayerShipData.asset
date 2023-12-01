@@ -21,4 +21,4 @@ MonoBehaviour:
   playerType: 0
   maxFireRateCooldown: 0.1
   maxInvincibilityTimer: 3
-  rotationSpeed: 600
+  rotationSpeed: 250

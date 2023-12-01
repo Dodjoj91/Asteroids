@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class PlayerShip : Unit
 {
+    #region Variables
+
     [SerializeField] Transform bulletSpawnTransform;
     [SerializeField] ParticleSystem rocketParticle;
     UnitDataPlayer playerData;
 
     InputHandler inputHandler;
-    
+
     int fadeBlinkTimes = 8;
 
     float fadeBlinkTimer = 0.0f;
@@ -17,6 +19,9 @@ public class PlayerShip : Unit
     float invincibilityTimer = 0.0f;
     float fireRateCooldownTimer = 0.0f;
 
+    #endregion
+
+    #region Unity Functions
 
     protected override void Start()
     {
@@ -36,26 +41,44 @@ public class PlayerShip : Unit
     protected override void Update()
     {
         base.Update();
-
         if (fireRateCooldownTimer > 0.0f) { fireRateCooldownTimer -= Time.deltaTime; }
         UpdateInvincibilityTimer();
-        UpdateMovement();
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (invincibilityTimer > 0.0f) { return; }
+        if (collision.CompareTag(StaticDefines.TAG_BULLET) || collision.CompareTag(StaticDefines.TAG_ENEMY))
+        {
+            Hit();
+            DestroyShip();
+        }
+    }
+
+    #endregion
+
+    #region Setup Functions
 
     public void AttachInputHandler(InputHandler inputHandler) => this.inputHandler = inputHandler;
 
-    private void UpdateMovement()
+    #endregion
+
+    #region Game Logic Functions
+
+    protected override void UpdatePhysicsMovement()
     {
+        base.UpdatePhysicsMovement();
+
         if (inputHandler != null)
         {
             float forward = 0.0f;
             float rotationX = 0.0f;
 
-            if (inputHandler.IsAccelerating) 
+            if (inputHandler.IsAccelerating)
             {
                 var particle = rocketParticle.emission;
                 particle.rateOverTime = 40.0f;
-                forward = 1.0f; 
+                forward = 1.0f;
             }
             else
             {
@@ -68,15 +91,14 @@ public class PlayerShip : Unit
 
             rigidBody.AddForce(transform.up * forward * speed);
 
-            if (rotationX != 0.0f)
-            {
-                float targetRotation = rigidBody.rotation - rotationX * playerData.rotationSpeed * Time.deltaTime;
-                rigidBody.MoveRotation(targetRotation);
-            }
-
             if (rigidBody.velocity.magnitude > speed)
             {
                 rigidBody.velocity = rigidBody.velocity.normalized * speed;
+            }
+
+            if (rotationX != 0.0f)
+            {
+                rigidBody.MoveRotation(rigidBody.rotation - playerData.rotationSpeed * Time.fixedDeltaTime * rotationX);
             }
         }
     }
@@ -92,22 +114,12 @@ public class PlayerShip : Unit
         fireRateCooldownTimer = playerData.maxFireRateCooldown;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (invincibilityTimer > 0.0f) { return; }
-        if (collision.CompareTag(StaticDefines.TAG_BULLET) || collision.CompareTag(StaticDefines.TAG_ENEMY))
-        {
-            Hit();
-            DestroyShip();
-        }
-    }
-
     private void DestroyShip()
     {
         AddScore();
         ManagerSystem.Instance.GameManager.AddLife(-1);
 
-        if (ManagerSystem.Instance.GameManager.GetLives() > 0)
+        if (ManagerSystem.Instance.GameManager.Lives > 0)
         {
             alphaColorValue = 0.0f;
             fadeBlinkMaxTimer = playerData.maxInvincibilityTimer / fadeBlinkTimes;
@@ -123,18 +135,18 @@ public class PlayerShip : Unit
         {
             fadeBlinkTimer += Time.deltaTime;
             invincibilityTimer -= Time.deltaTime;
-            LerpFadeColor(fadeBlinkTimer);
+            LerpInvincibilityAlpha(fadeBlinkTimer);
 
             if (invincibilityTimer < 0.0f)
             {
                 fadeBlinkTimer = 0.0f;
                 alphaColorValue = 1.0f;
-                LerpFadeColor(fadeBlinkMaxTimer);
+                LerpInvincibilityAlpha(fadeBlinkMaxTimer);
             }
         }
     }
-    
-    private void LerpFadeColor(float timer)
+
+    private void LerpInvincibilityAlpha(float timer)
     {
         Color currentColor = spriteRenderer.color;
         currentColor.a = Mathf.Lerp(currentColor.a, alphaColorValue, timer / fadeBlinkMaxTimer);
@@ -146,5 +158,5 @@ public class PlayerShip : Unit
             fadeBlinkTimer = 0.0f;
         }
     }
-
+    #endregion
 }

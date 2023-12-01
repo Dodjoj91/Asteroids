@@ -56,7 +56,13 @@ public class Unit : MonoBehaviour, IUnit
 
     protected virtual void Update()
     {
+        UpdateMovement();
         TeleportOutsideBoundaries();
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        UpdatePhysicsMovement();
     }
 
     #endregion
@@ -90,7 +96,11 @@ public class Unit : MonoBehaviour, IUnit
 
     #endregion
 
-    #region Undefined
+    #region Game Logic Functions
+
+    virtual protected void UpdateMovement() { }
+
+    virtual protected void UpdatePhysicsMovement() { }
 
     protected void AddScore()
     {

@@ -16,7 +16,49 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 42ff425a0310eee41b9ee44281dbe29c
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 0315bf6242ddb6f4bb27871dd962e0ab
+    m_Address: Assets/ScriptableObjects/Units/Enemies/GreenAsteroidData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - enemyPackOne
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9902f37a00ea37408e8ad2ad76bf9e6
+    m_Address: Assets/ScriptableObjects/Units/Enemies/GreenFlyingSaucerData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - enemyPackOne
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e9e5e3fc2fccdb8448fe3b436cdbeab0
+    m_Address: Assets/ScriptableObjects/Units/Enemies/RedAsteroidData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - enemyPackOne
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 93d1e84f498811d46a7addd362482d97
+    m_Address: Assets/ScriptableObjects/Units/Enemies/RedFlyingSaucerData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - enemyPackOne
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9b160b19750d84940a9feca0a5853e23
+    m_Address: Graphics/Units/Enemies/Sprite_Asteroid
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - enemyPackOne
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6a41b5621981aa42918b2ca54fb9d96
+    m_Address: Graphics/Units/Enemies/Sprite_FlyingSaucer
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - enemyPackOne
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1287d8ffeafc1ce4c908d85d6480c381
+    m_Address: Assets/ScriptableObjects/Units/Players/PlayerShipData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - enemyPackOne
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f35fc0931e1bae64fa5a7e9f1002963c, type: 2}
   m_SchemaSet:

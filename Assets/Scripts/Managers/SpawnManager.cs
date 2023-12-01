@@ -1,6 +1,0 @@
-
-
-public class SpawnManager : Manager
-{
-
-}

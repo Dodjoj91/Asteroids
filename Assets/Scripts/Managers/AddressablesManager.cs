@@ -1,48 +1,53 @@
 using UnityEngine.AddressableAssets;
-using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using System.Collections.Generic;
 
 public class AddressablesManager : Manager
 {
-    [SerializeField] private AddressableAssetGroup defaultGroup;
-    [SerializeField] private AddressableAssetGroup enemyGroupOne;
-    [SerializeField] private AddressableAssetGroup enemyGroupTwo;
+    #region Variables
+    [SerializeField] AssetReference test;
+    const string enemyPackAssetOneName = "enemyPackOne";
 
+    #endregion
 
-    void LoadPrefab(AddressableAssetGroup group)
+    #region Load Functions
+
+    void LoadPrefab(AssetReference group)
     {
-        var handle = Addressables.LoadAssetAsync<GameObject>(defaultGroup);
-        handle.Completed += OnPrefabLoadComplete;
+        var handle = Addressables.LoadAssetAsync<IList<Object>>(group);
+        handle.Completed += OnAssetLoadComplete;
     }
 
-    public AsyncOperationHandle LoadAsyncGroup(ESpawnPreset eSpawnPreset)
+    public AsyncOperationHandle<IList<Object>> LoadAsyncGroup(ESpawnPreset eSpawnPreset)
     {
-        AsyncOperationHandle op = new AsyncOperationHandle();
-        
+        AsyncOperationHandle<IList<Object>> op = new AsyncOperationHandle<IList<Object>>();
+
         switch (eSpawnPreset)
         {
             case ESpawnPreset.AssetPackOne:
-                op = Addressables.LoadAssetAsync<GameObject>(enemyGroupOne); 
+                op = Addressables.LoadAssetsAsync<Object>(enemyPackAssetOneName, null);
+                op.Completed += OnAssetLoadComplete;
                 break;
             case ESpawnPreset.AssetPackTwo:
-                op = Addressables.LoadAssetAsync<GameObject>(enemyGroupTwo);
                 break;
         }
 
         return op;
     }
 
-    void OnPrefabLoadComplete(AsyncOperationHandle<GameObject> handle)
+    void OnAssetLoadComplete(AsyncOperationHandle<IList<Object>> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            GameObject prefabInstance = handle.Result;
-            // Instantiate and use the prefab as needed.
+            foreach (var obj in handle.Result)
+            {
+                Object prefabInstance = obj;
+            }
         }
         else
         {
-            Debug.LogError($"Failed to load prefab: {handle.DebugName}");
+            Debug.LogError("Failed to load prefab: + " + handle.DebugName);
         }
     }
 
@@ -62,4 +67,6 @@ public class AddressablesManager : Manager
         Addressables.Release(loadResourceLocations);
         return string.Empty;
     }
+
+    #endregion
 }

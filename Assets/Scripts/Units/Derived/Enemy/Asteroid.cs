@@ -2,24 +2,13 @@ using UnityEngine;
 
 public class Asteroid : Unit
 {
+    #region Unity Functions
+
     protected override void Start()
     {
         base.Start();
         SetRandomRotation(Random.Range(0.0f, 360.0f));
     }
-
-    // Update is called once per frame
-    protected override void Update()
-    {
-        base.Update();
-        rigidBody.AddForce(transform.up * speed);
-
-        if (rigidBody.velocity.magnitude > speed)
-        {
-            rigidBody.velocity = rigidBody.velocity.normalized * speed;
-        }
-    }
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -27,6 +16,22 @@ public class Asteroid : Unit
         {
             Hit();
             SplitAsteroid();
+        }
+    }
+
+    #endregion
+
+    #region Game Logic Functions
+
+    protected override void UpdatePhysicsMovement()
+    {
+        base.UpdatePhysicsMovement();
+
+        rigidBody.AddForce(transform.up * speed);
+
+        if (rigidBody.velocity.magnitude > speed)
+        {
+            rigidBody.velocity = rigidBody.velocity.normalized * speed;
         }
     }
 
@@ -39,4 +44,6 @@ public class Asteroid : Unit
     {
         rigidBody.MoveRotation(angle);
     }
+
+    #endregion
 }

@@ -21,18 +21,92 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/Managers/GameManager.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fab6b97fa246f8549a16c92a1882dca8
     m_Address: Assets/Prefabs/Units/Players/PlayerRocketShip.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3703f132d7a39ad4b94e891b7a538f7f
     m_Address: Assets/Prefabs/Managers/AddressablesManager.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fa47eda5f672255408f2e3fc150b84a4
     m_Address: Assets/Prefabs/Managers/ManagerSystem.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6f507fd4d95c1bb4aa5e00eda3d88407
+    m_Address: Assets/Prefabs/Camera/Main Camera.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: da53ac3e2cc317c46be2a52c6f722a8a
+    m_Address: Assets/Prefabs/GUI/GUI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 754059f09c26ca74b9c8038013652c19
+    m_Address: Assets/Prefabs/Handlers/InputHandler.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4b6ddeb580eddc747b129576c98e2e64
+    m_Address: Assets/Prefabs/Managers/GUIManager.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f82902e005c554741be04e7d0666f673
+    m_Address: Assets/Prefabs/Managers/ObjectPoolManager.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc304ac733870f34e9d4e080ac59260d
+    m_Address: Assets/Prefabs/Bullet/Bullet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8c9cfa26abfee488c85f1582747f6a02
+    m_Address: Assets/Scenes/AsteroidScene.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f06582a951e5e7445b33730f6b551327
+    m_Address: Assets/Prefabs/Particles/ExplosionParticle.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a36f58bd24d9914c8656f4098e5e2a0
+    m_Address: Assets/Prefabs/Particles/RocketParticle.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3fb605878e4ffca4fbc6b9101c232c62
+    m_Address: Graphics/Bullets/Spirte_Bullet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: daf9c4bf88ffee74f875b6b6f9c71991
+    m_Address: Graphics/Units/Players/Sprite_Rocket
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 78c353a4bb0d85a459ca9253bbac3a21
+    m_Address: Inputs/PlayerInputActions
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 26fc5162ba15c2444be21319e571a6cf
+    m_Address: Assets/Prefabs/Units/Enemies/Asteroid.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 32f0272b0d34de547a3b1535bd8f7b05
+    m_Address: Assets/Prefabs/Units/Enemies/FlyingSaucer.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f35fc0931e1bae64fa5a7e9f1002963c, type: 2}
   m_SchemaSet:

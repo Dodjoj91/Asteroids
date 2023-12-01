@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 [CreateAssetMenu(menuName = "Game/UnitDataEnemy")]
 public class UnitDataEnemy : UnitData
@@ -11,6 +10,7 @@ public class UnitDataEnemy : UnitData
 }
 
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(UnitDataEnemy))]
 public class UnitDataEnemyEditor : UnitDataEditor
 {
@@ -46,3 +46,4 @@ public class UnitDataEnemyEditor : UnitDataEditor
         serializedObject.ApplyModifiedProperties();
     }
 }
+#endif

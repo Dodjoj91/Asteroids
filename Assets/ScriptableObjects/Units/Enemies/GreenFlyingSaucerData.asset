@@ -16,7 +16,7 @@ MonoBehaviour:
   spriteColor: {r: 0.43529412, g: 1, b: 0, a: 1}
   score: 20
   shootingSpeed: 1
-  minSpeed: 0
-  maxSpeed: 0
+  minSpeed: 1
+  maxSpeed: 1.5
   enemyType: 1
   maxShootTimer: 2

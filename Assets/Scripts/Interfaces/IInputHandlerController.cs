@@ -1,4 +1,3 @@
-
 using UnityEngine.InputSystem;
 
 public interface IInputHandlerController

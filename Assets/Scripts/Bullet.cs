@@ -32,9 +32,7 @@ public class Bullet : MonoBehaviour
 
     private void IsOutsideView()
     {
-        Vector3 viewPortPosition = Camera.main.WorldToViewportPoint(transform.position);
-
-        if (viewPortPosition.x < -0.05f || viewPortPosition.x > 1.05f || viewPortPosition.y < -0.05f || viewPortPosition.y > 1.05f)
+        if (ExtensionUtility.TryGetInvertedOutsidePosition(transform.position, boxCollider2D.size, out Vector3 _))
         {
             RemoveBullet();
         }

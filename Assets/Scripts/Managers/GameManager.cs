@@ -244,7 +244,6 @@ public partial class GameManager : Manager
 
         if (lives == 0)
         {
-            player.gameObject.SetActive(false);
             SetEndingState(false);
         }
     }
@@ -305,6 +304,12 @@ public partial class GameManager : Manager
 
     private void ReturnAllActiveObjects()
     {
+        ClearEnemies();
+        ClearBullets();
+    }
+
+    private void ClearEnemies()
+    {
         if (enemies != null)
         {
             foreach (var enemyList in enemies)
@@ -321,7 +326,10 @@ public partial class GameManager : Manager
 
             enemies.Clear();
         }
+    }
 
+    private void ClearBullets()
+    {
         if (spawnedBullets != null)
         {
             foreach (var bullet in spawnedBullets)

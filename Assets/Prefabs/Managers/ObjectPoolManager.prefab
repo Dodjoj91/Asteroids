@@ -23,13 +23,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3253732666926866626}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5597054818422854832}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6069030052558056538
 GameObject:
@@ -55,6 +55,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6069030052558056538}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -62,7 +63,6 @@ Transform:
   m_Children:
   - {fileID: 6699594528647537661}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &280338750648792753
 MonoBehaviour:
@@ -82,3 +82,4 @@ MonoBehaviour:
   flyingSaucerPrefab: {fileID: 74318081088734353, guid: 32f0272b0d34de547a3b1535bd8f7b05, type: 3}
   bulletPrefab: {fileID: -7869426861539481490, guid: cc304ac733870f34e9d4e080ac59260d, type: 3}
   inputHandlerPrefab: {fileID: 1538307443856701919, guid: 754059f09c26ca74b9c8038013652c19, type: 3}
+  explosionParticlePrefab: {fileID: -5847686699331186165, guid: f06582a951e5e7445b33730f6b551327, type: 3}

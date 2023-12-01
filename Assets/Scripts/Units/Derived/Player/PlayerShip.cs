@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 public class PlayerShip : Unit
 {
     [SerializeField] Transform bulletSpawnTransform;
+    [SerializeField] ParticleSystem rocketParticle;
     UnitDataPlayer playerData;
 
     InputHandler inputHandler;
@@ -52,7 +53,17 @@ public class PlayerShip : Unit
             float forward = 0.0f;
             float rotationX = 0.0f;
 
-            if (inputHandler.IsAccelerating) { forward = 1.0f; }
+            if (inputHandler.IsAccelerating) 
+            {
+                var particle = rocketParticle.emission;
+                particle.rateOverTime = 40.0f;
+                forward = 1.0f; 
+            }
+            else
+            {
+                var particle = rocketParticle.emission;
+                particle.rateOverTime = 0.0f;
+            }
 
             if (inputHandler.IsRotatingLeft) { rotationX += -1.0f; }
             if (inputHandler.IsRotatingRight) { rotationX += 1.0f; }

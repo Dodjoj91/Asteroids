@@ -16,6 +16,7 @@ public class ObjectPoolManager : Manager
     [SerializeField] FlyingSaucer flyingSaucerPrefab;
     [SerializeField] Bullet bulletPrefab;
     [SerializeField] InputHandler inputHandlerPrefab;
+    [SerializeField] ParticleSystem explosionParticlePrefab;
 
     Dictionary<EObjectPooling, ObjectPool<GameObject>> pools;
 
@@ -32,6 +33,7 @@ public class ObjectPoolManager : Manager
         pools[EObjectPooling.FlyingSaucer] = new ObjectPool<GameObject>(CreateFlyingSaucer, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
         pools[EObjectPooling.Bullet] = new ObjectPool<GameObject>(CreateBullet, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
         pools[EObjectPooling.InputHandler] = new ObjectPool<GameObject>(CreateInputHandler, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, 1, 1);
+        pools[EObjectPooling.ExplosionParticle] = new ObjectPool<GameObject>(CreateExplosionParticle, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, 1, 1);
     }
 
     public GameObject GetPooledObject(EObjectPooling objectPoolType)
@@ -81,6 +83,12 @@ public class ObjectPoolManager : Manager
         return Instantiate(inputHandlerPrefab.gameObject);
     }
 
+    private GameObject CreateExplosionParticle()
+    {
+        GameObject instantiatedObject =  Instantiate(explosionParticlePrefab.gameObject);
+        instantiatedObject.AddComponent<ParticlePool>();
+        return instantiatedObject;
+    }
     void OnReturnedToPool<T>(T poolObject)
     {
         if (poolObject is GameObject)

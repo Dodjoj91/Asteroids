@@ -65,6 +65,8 @@ public class Unit : MonoBehaviour, IUnit
 
     public void Hit()
     {
+        GameObject explosion = ObjectPoolManager.Instance.GetPooledObject(EObjectPooling.ExplosionParticle);
+        explosion.transform.position = transform.position;
         AddScore();
     }
 
@@ -97,32 +99,9 @@ public class Unit : MonoBehaviour, IUnit
 
     private void TeleportOutsideBoundaries()
     {
-        Vector3 viewPortPosition = Camera.main.WorldToViewportPoint(transform.position);
-        float viewPortX = viewPortPosition.x;
-        float viewPortY = viewPortPosition.y;
-
-        float screenWidth = Screen.width;
-        float screenHeight = Screen.height;
-
-        // Convert the box size to a viewport size
-        float viewportWidth = (boxSize.x * 10.0f)  / screenWidth;
-        float viewportHeight = (boxSize.y * 10.0f) / screenHeight;
-
-        bool outsideMinX = viewPortPosition.x < -viewportWidth;
-        bool outsideMaxX = viewPortPosition.x > 1.0f + viewportWidth;
-        bool outsideMinY = viewPortPosition.y < -viewportHeight;
-        bool outsideMaxY = viewPortPosition.y > 1.0 + viewportHeight;
-
-        if (outsideMinX || outsideMaxX || outsideMinY || outsideMaxY)
+        if (ExtensionUtility.TryGetInvertedOutsidePosition(transform.position, boxSize * 10.0f, out Vector3 invertedPosition))
         {
-            if (outsideMinX) { viewPortX = 1.0f + viewportWidth * 0.998f; }
-            else if (outsideMaxX) { viewPortX = -viewportWidth * 0.998f; }
-
-            if (outsideMinY) {  viewPortY = 1.0f + viewportHeight * 0.998f; }
-            else if (outsideMaxY) {  viewPortY = -viewportHeight * 0.998f; }
-
-            Vector2 newPos = Camera.main.ViewportToWorldPoint(new Vector2(viewPortX, viewPortY));
-            transform.position = newPos;
+            transform.position = invertedPosition;
         }
     }
 

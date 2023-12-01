@@ -14,6 +14,7 @@ public enum EObjectPooling : short
     FlyingSaucer,
     Bullet,
     InputHandler,
+    ExplosionParticle,
     None
 }
 

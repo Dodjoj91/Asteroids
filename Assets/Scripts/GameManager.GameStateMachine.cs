@@ -95,7 +95,7 @@ public partial class GameManager
                 SpawnEnemies(EEnemyType.FlyingSaucer, Random.Range(1, 1));
                 break;
             case EGameState.EndingGame:
-                newStartGameTimer = newStartGameTimerMax;
+                SetEndingVariables();
                 Time.timeScale = 1.0f;
                 break;
             case EGameState.Paused:
@@ -107,7 +107,15 @@ public partial class GameManager
     private void SetEndingState(bool isWinning)
     {
         this.isWinning = isWinning;
-        SetStartState(EGameState.EndingGame);
+        SetState(EGameState.EndingGame);
         EndingDelegate?.Invoke(isWinning, true);
+    }
+
+    private void SetEndingVariables()
+    {
+        if (isWinning) { ClearBullets(); }
+        else { player.gameObject.SetActive(false); }
+        
+        newStartGameTimer = newStartGameTimerMax;
     }
 }

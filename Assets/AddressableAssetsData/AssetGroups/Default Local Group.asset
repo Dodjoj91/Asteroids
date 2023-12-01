@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 58823837272dd7341acc5f5fb0ec452e
+  m_SerializeEntries:
+  - m_GUID: eb6b041430c1beb4e9941422019ce87c
+    m_Address: Assets/Prefabs/Managers/GameManager.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fab6b97fa246f8549a16c92a1882dca8
+    m_Address: Assets/Prefabs/Units/Players/PlayerRocketShip.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3703f132d7a39ad4b94e891b7a538f7f
+    m_Address: Assets/Prefabs/Managers/AddressablesManager.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fa47eda5f672255408f2e3fc150b84a4
+    m_Address: Assets/Prefabs/Managers/ManagerSystem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f35fc0931e1bae64fa5a7e9f1002963c, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 0e212e425682ded45ab6909fe3d7d2c9, type: 2}
+    - {fileID: 11400000, guid: 1163089e0887b6c4a80ca59d4a79c118, type: 2}

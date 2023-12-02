@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 [CreateAssetMenu(menuName = "Game/UnitDataPlayer")]
 public class UnitDataPlayer : UnitData

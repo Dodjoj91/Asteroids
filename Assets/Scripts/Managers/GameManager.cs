@@ -10,7 +10,6 @@ public partial class GameManager : Manager
     #region Variables
 
     [Header("General"), Space]
-    PlayerShip player;
     [SerializeField] private Camera mainCamera;
 
 
@@ -28,27 +27,29 @@ public partial class GameManager : Manager
     [SerializeField] private Dictionary<EPlayerType, List<UnitDataPlayer>> playerData;
 
 
+    private PlayerShip player;
     private AddressablesManager addressablesManager;
     private ObjectPoolManager objectPoolManager;
 
-    UnityAction<int> scoreDelegate;
-    UnityAction<int> livesDelegate;
-    UnityAction<bool, bool> endingDelegate;
+    private UnityAction<int> scoreDelegate;
+    private UnityAction<int> livesDelegate;
+    private UnityAction<bool, bool> endingDelegate;
 
-    bool isWinning = false;
-    float newStartGameTimer = 0.0f;
+    private List<Bullet> spawnedBullets = new List<Bullet>();
+    private Dictionary<EEnemyType, List<GameObject>> enemies = null;
 
-    int totalScore = 0;
-    int lives = 3;
+    private List<AsyncOperationHandle<IList<Object>>> startingLoadOperations = new List<AsyncOperationHandle<IList<Object>>>();
 
-    const int startLives = 3;
-    const int maxLives = 5;
-    const int maxScore = 999999;
+    private bool isWinning = false;
+    private float newStartGameTimer = 0.0f;
 
-    List<Bullet> spawnedBullets = new List<Bullet>();
-    Dictionary<EEnemyType, List<GameObject>> enemies = null;
+    private int totalScore = 0;
+    private int lives = 3;
 
-    List<AsyncOperationHandle<IList<Object>>> startingLoadOperations = new List<AsyncOperationHandle<IList<Object>>>();
+
+    private const int startLives = 3;
+    private const int maxLives = 5;
+    private const int maxScore = 999999;
 
     #endregion
 
@@ -77,7 +78,7 @@ public partial class GameManager : Manager
 
     #region Setup Functions
 
-    void OnAddressableSpawnPresetComplete(AsyncOperationHandle<IList<Object>> handle)
+    private void OnAddressableSpawnPresetComplete(AsyncOperationHandle<IList<Object>> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
@@ -247,6 +248,10 @@ public partial class GameManager : Manager
         {
             SetEndingState(false);
         }
+        else
+        {
+            SetObjectPositionOnAvailableSpot(player.gameObject);
+        }
     }
 
     #region Remove/Return Functions
@@ -325,12 +330,20 @@ public partial class GameManager : Manager
     {
         foreach (var obj in objects)
         {
-            SetObjectPositionOnAvailableSpot(obj.GetComponent<BoxCollider2D>());
+            SetObjectPositionOnAvailableSpot(obj);
         }
     }
 
-    public void SetObjectPositionOnAvailableSpot(BoxCollider2D boxCollider)
+    private void SetObjectPositionOnAvailableSpot(GameObject objectToSetPosition)
     {
+        bool hasBoxCollider = objectToSetPosition.TryGetComponent(out BoxCollider2D boxCollider);
+        bool hasSpriteRenderer = objectToSetPosition.TryGetComponent(out SpriteRenderer spriteRenderer);
+
+        Vector2 boxSize = 
+            hasBoxCollider ? 
+            boxCollider.bounds.size : hasSpriteRenderer ? 
+            spriteRenderer.bounds.size : new Vector2(0.3f, 0.3f);
+
         Vector3 worldPoint = Vector3.zero;
         bool spawnedAtRandomLocation = false;
 
@@ -342,15 +355,16 @@ public partial class GameManager : Manager
             Vector2 randomPosition = new Vector2(randomXPos, randomYPos);
             worldPoint = GetViewportToWorldPoint(randomPosition);
 
-            if (!Physics2D.OverlapBox(worldPoint, boxCollider.size, 0.0f))
+            if (!Physics2D.OverlapBox(worldPoint, boxSize, 0.0f))
             {
-                boxCollider.gameObject.transform.position = worldPoint;
+                objectToSetPosition.transform.position = worldPoint;
                 spawnedAtRandomLocation = true;
+                break;
             }
         }
 
         //Just forcefully set the object on top of another gameObject
-        if (!spawnedAtRandomLocation) { boxCollider.gameObject.transform.position = worldPoint; }
+        if (!spawnedAtRandomLocation) { objectToSetPosition.transform.position = worldPoint; }
     }
 
     private Vector3 GetViewportToWorldPoint(Vector2 position)

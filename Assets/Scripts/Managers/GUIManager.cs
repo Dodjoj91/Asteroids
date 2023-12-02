@@ -7,13 +7,14 @@ public class GUIManager : Manager
 {
     #region Variables
 
-    [SerializeField] TMP_Text endingPrompt;
-    [SerializeField] TMP_Text scoreAmount;
-    [SerializeField] TMP_Text scoreText;
-    [SerializeField] List<Image> imageLives;
+    [SerializeField] private TMP_Text endingPrompt;
+    [SerializeField] private TMP_Text scoreAmount;
+    [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private List<Image> imageLives;
 
-    const string WinningString = "You won, next round starting soon!";
-    const string LoseString = "You Lost!";
+
+    private const string WinningString = "You won, next round starting soon!";
+    private const string LoseString = "You Lost!";
 
     #endregion
 

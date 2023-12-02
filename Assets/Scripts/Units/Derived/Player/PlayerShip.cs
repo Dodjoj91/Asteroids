@@ -4,20 +4,20 @@ public class PlayerShip : Unit
 {
     #region Variables
 
-    [SerializeField] Transform bulletSpawnTransform;
-    [SerializeField] ParticleSystem rocketParticle;
-    UnitDataPlayer playerData;
+    [SerializeField] private Transform bulletSpawnTransform;
+    [SerializeField] private ParticleSystem rocketParticle;
 
-    InputHandler inputHandler;
+    private UnitDataPlayer playerData;
+    private InputHandler inputHandler;
 
-    int fadeBlinkTimes = 8;
+    private int fadeBlinkTimes = 8;
 
-    float fadeBlinkTimer = 0.0f;
-    float fadeBlinkMaxTimer = 0.0f;
-    float alphaColorValue = 1.0f;
+    private float fadeBlinkTimer = 0.0f;
+    private float fadeBlinkMaxTimer = 0.0f;
+    private float alphaColorValue = 1.0f;
 
-    float invincibilityTimer = 0.0f;
-    float fireRateCooldownTimer = 0.0f;
+    private float invincibilityTimer = 0.0f;
+    private float fireRateCooldownTimer = 0.0f;
 
     #endregion
 
@@ -131,7 +131,6 @@ public class PlayerShip : Unit
             fadeBlinkMaxTimer = playerData.maxInvincibilityTimer / fadeBlinkTimes;
             invincibilityTimer = playerData.maxInvincibilityTimer;
             rigidBody.velocity = Vector3.zero;
-            ManagerSystem.Instance.GameManager.SetObjectPositionOnAvailableSpot(boxCollider2d);
         }
     }
 

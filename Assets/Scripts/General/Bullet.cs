@@ -4,10 +4,10 @@ public class Bullet : MonoBehaviour
 {
     #region Variables
 
-    [SerializeField] BoxCollider2D boxCollider2D;
+    [SerializeField] private BoxCollider2D boxCollider2D;
 
-    Vector3 direction = Vector3.zero;
-    float speed = 2.5f;
+    private Vector3 direction = Vector3.zero;
+    private float speed = 2.5f;
 
     #endregion
 
@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
         ManagerSystem.Instance.GameManager.ShouldRemoveBullet(this, false);
     }
 
-    void Update()
+    private void Update()
     {
         UpdateBullet();
     }
@@ -56,6 +56,7 @@ public class Bullet : MonoBehaviour
         ObjectPoolManager.Instance.ReturnObject(EObjectPooling.Bullet, gameObject);
         ManagerSystem.Instance.GameManager.ShouldRemoveBullet(this, true);
     }
+
     public void SetBulletVariables(Vector3 direction, int includeLayers, int excludeLayers, float speed)
     {
         this.direction = direction;

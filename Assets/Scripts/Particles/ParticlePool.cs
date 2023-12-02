@@ -4,13 +4,13 @@ public class ParticlePool : MonoBehaviour
 {
     #region Variables
 
-    ParticleSystem particleSys;
+    private ParticleSystem particleSys;
 
     #endregion
 
     #region Unity Functions
 
-    void Update()
+    private void Update()
     {
         if (particleSys != null)
         {

@@ -5,11 +5,11 @@ public class FlyingSaucer : Unit
 {
     #region Variables
 
-    UnitDataEnemy enemyData;
+    private UnitDataEnemy enemyData;
 
-    Vector2 moveDirection;
-    float shootTimer = 0.0f;
-    float shootingSpeed = 1.0f;
+    private Vector2 moveDirection;
+    private float shootTimer = 0.0f;
+    private float shootingSpeed = 1.0f;
 
     #endregion
 

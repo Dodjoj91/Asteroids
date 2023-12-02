@@ -6,19 +6,19 @@ public class ObjectPoolManager : Manager
 {
     #region Variables
 
-    static ObjectPoolManager instance = null;
+    private static ObjectPoolManager instance = null;
 
     [SerializeField] private Transform rootObjectPool;
 
     [Header("Pool Prefabs"), Space]
-    [SerializeField] PlayerShip playerShipPrefab;
-    [SerializeField] Asteroid asteroidPrefab;
-    [SerializeField] FlyingSaucer flyingSaucerPrefab;
-    [SerializeField] Bullet bulletPrefab;
-    [SerializeField] InputHandler inputHandlerPrefab;
-    [SerializeField] ParticleSystem explosionParticlePrefab;
+    [SerializeField] private PlayerShip playerShipPrefab;
+    [SerializeField] private Asteroid asteroidPrefab;
+    [SerializeField] private FlyingSaucer flyingSaucerPrefab;
+    [SerializeField] private Bullet bulletPrefab;
+    [SerializeField] private InputHandler inputHandlerPrefab;
+    [SerializeField] private ParticleSystem explosionParticlePrefab;
 
-    Dictionary<EObjectPooling, ObjectPool<GameObject>> pools;
+    private Dictionary<EObjectPooling, ObjectPool<GameObject>> pools;
 
     #endregion
 
@@ -34,14 +34,7 @@ public class ObjectPoolManager : Manager
     {
         if (instance == null) { instance = this; }
 
-        pools = new Dictionary<EObjectPooling, ObjectPool<GameObject>>();
-
-        pools[EObjectPooling.PlayerShip] = new ObjectPool<GameObject>(CreateShip, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
-        pools[EObjectPooling.Asteroid] = new ObjectPool<GameObject>(CreateAsteroid, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
-        pools[EObjectPooling.FlyingSaucer] = new ObjectPool<GameObject>(CreateFlyingSaucer, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
-        pools[EObjectPooling.Bullet] = new ObjectPool<GameObject>(CreateBullet, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, 50);
-        pools[EObjectPooling.InputHandler] = new ObjectPool<GameObject>(CreateInputHandler, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, 1, 1);
-        pools[EObjectPooling.ExplosionParticle] = new ObjectPool<GameObject>(CreateExplosionParticle, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
+        InitiateDictionaryPool();
     }
 
     #endregion
@@ -69,6 +62,22 @@ public class ObjectPoolManager : Manager
             Destroy(returnObj);
         }
     }
+
+    #region
+
+    private void InitiateDictionaryPool()
+    {
+        pools = new Dictionary<EObjectPooling, ObjectPool<GameObject>>();
+
+        pools[EObjectPooling.PlayerShip] = new ObjectPool<GameObject>(CreateShip, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
+        pools[EObjectPooling.Asteroid] = new ObjectPool<GameObject>(CreateAsteroid, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
+        pools[EObjectPooling.FlyingSaucer] = new ObjectPool<GameObject>(CreateFlyingSaucer, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
+        pools[EObjectPooling.Bullet] = new ObjectPool<GameObject>(CreateBullet, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, 50);
+        pools[EObjectPooling.InputHandler] = new ObjectPool<GameObject>(CreateInputHandler, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, 1, 1);
+        pools[EObjectPooling.ExplosionParticle] = new ObjectPool<GameObject>(CreateExplosionParticle, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
+    }
+
+    #endregion
 
     #region Create Functions
 
@@ -108,7 +117,7 @@ public class ObjectPoolManager : Manager
     #endregion
 
 
-    void OnReturnedToPool<T>(T poolObject)
+    private void OnReturnedToPool<T>(T poolObject)
     {
         if (poolObject is GameObject)
         {
@@ -119,7 +128,7 @@ public class ObjectPoolManager : Manager
     }
 
 
-    void OnTakeFromPool<T>(T poolObject)
+    private void OnTakeFromPool<T>(T poolObject)
     {
         if (poolObject is GameObject)
         {
@@ -129,7 +138,7 @@ public class ObjectPoolManager : Manager
         }
     }
 
-    void OnDestroyPoolObject<T>(T poolObject)
+    private void OnDestroyPoolObject<T>(T poolObject)
     {
         if (poolObject is GameObject)
         {

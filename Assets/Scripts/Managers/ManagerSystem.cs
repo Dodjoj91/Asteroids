@@ -29,7 +29,7 @@ public class ManagerSystem : MonoBehaviour
 
     #region Unity Functions
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null) { Instance = this; }
         CreateAndFindManagers();

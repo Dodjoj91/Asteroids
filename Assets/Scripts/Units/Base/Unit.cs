@@ -12,10 +12,6 @@ public class Unit : MonoBehaviour, IUnit
     protected float speed = 1.0f;
     Vector2 boxSize;
 
-    #endregion
-
-    #region Properties
-
     public UnitData UnitData { get { return unitData; } set { unitData = value; } }
 
     protected UnitDataPlayer UnitDataPlayer 

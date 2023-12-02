@@ -5,7 +5,7 @@ public class InputHandler : MonoBehaviour, IInputHandlerController
 {
     #region Variables
 
-    [SerializeField] InputActionReference accelerateActionRef, rotateLeftActionRef, rotateRightActionRef, shootingActionRef;
+    [SerializeField] private InputActionReference accelerateActionRef, rotateLeftActionRef, rotateRightActionRef, shootingActionRef;
 
     private bool isShooting = false;
     private bool isAccelerating = false;
@@ -20,6 +20,7 @@ public class InputHandler : MonoBehaviour, IInputHandlerController
     public InputActionReference RotateLeftActionRef { get { return rotateLeftActionRef; } }
     public InputActionReference RotateRightActionRef { get { return rotateRightActionRef; } }
     public InputActionReference ShootingActionRef { get { return shootingActionRef; } }
+
     public bool IsShooting { get { return isShooting; } }
     public bool IsAccelerating { get { return isAccelerating; } }
     public bool IsRotatingLeft { get { return isRotatingLeft; } }

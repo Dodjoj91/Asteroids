@@ -7,14 +7,15 @@ public class AddressablesManager : Manager
 {
     #region Variables
 
-    [SerializeField] AssetReference test;
-    const string enemyPackAssetOneName = "enemyPackOne";
+    [SerializeField] private AssetReference test;
+
+    private const string enemyPackAssetOneName = "enemyPackOne";
 
     #endregion
 
     #region Load Functions
 
-    void LoadPrefab(AssetReference group)
+    private void LoadPrefab(AssetReference group)
     {
         var handle = Addressables.LoadAssetAsync<IList<Object>>(group);
         handle.Completed += OnAssetLoadComplete;
@@ -37,7 +38,7 @@ public class AddressablesManager : Manager
         return op;
     }
 
-    void OnAssetLoadComplete(AsyncOperationHandle<IList<Object>> handle)
+    private void OnAssetLoadComplete(AsyncOperationHandle<IList<Object>> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {

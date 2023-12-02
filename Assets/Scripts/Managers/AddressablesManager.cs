@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class AddressablesManager : Manager
 {
     #region Variables
+
     [SerializeField] AssetReference test;
     const string enemyPackAssetOneName = "enemyPackOne";
 
@@ -50,8 +51,6 @@ public class AddressablesManager : Manager
             Debug.LogError("Failed to load prefab: + " + handle.DebugName);
         }
     }
-
-
 
     public static string GetAddressFromAssetReference(AssetReference reference)
     {

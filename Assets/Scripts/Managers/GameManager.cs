@@ -68,6 +68,15 @@ public partial class GameManager : Manager
         SpawnEnemyPreset(ESpawnPreset.AssetPackOne);
     }
 
+    private void Update()
+    {
+        UpdateStateMachine();
+    }
+
+    #endregion
+
+    #region Setup Functions
+
     void OnAddressableSpawnPresetComplete(AsyncOperationHandle<IList<Object>> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -86,18 +95,9 @@ public partial class GameManager : Manager
         }
         else
         {
-            Debug.LogError("Failed to load prefab: + " + handle.DebugName);
+            Debug.LogError("Failed to load addressable list: + " + handle.DebugName);
         }
     }
-
-    private void Update()
-    {
-        UpdateStateMachine();
-    }
-
-    #endregion
-
-    #region Setup Functions
 
     private void InitStartGame()
     {
@@ -127,7 +127,7 @@ public partial class GameManager : Manager
 
             UnitDataEnemy assetEnemyData = data as UnitDataEnemy;
             if (!enemyData.ContainsKey(assetEnemyData.enemyType)) { enemyData.Add(assetEnemyData.enemyType, new List<UnitDataEnemy>()); }
-            enemyData[assetEnemyData.enemyType].Add(assetEnemyData);
+            if (!enemyData[assetEnemyData.enemyType].Contains(assetEnemyData)) { enemyData[assetEnemyData.enemyType].Add(assetEnemyData); }
         }
         else if (data is UnitDataPlayer)
         {
@@ -135,7 +135,7 @@ public partial class GameManager : Manager
 
             UnitDataPlayer assetPlayerData = data as UnitDataPlayer;
             if (!playerData.ContainsKey(assetPlayerData.playerType)) { playerData.Add(assetPlayerData.playerType, new List<UnitDataPlayer>()); }
-            playerData[assetPlayerData.playerType].Add(assetPlayerData);
+            if (!playerData[assetPlayerData.playerType].Contains(assetPlayerData)) { playerData[assetPlayerData.playerType].Add(assetPlayerData); }
         }
     }
 

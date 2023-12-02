@@ -3,12 +3,18 @@ using UnityEngine.InputSystem;
 
 public class InputHandler : MonoBehaviour, IInputHandlerController
 {
+    #region Variables
+
     [SerializeField] InputActionReference accelerateActionRef, rotateLeftActionRef, rotateRightActionRef, shootingActionRef;
 
     private bool isShooting = false;
     private bool isAccelerating = false;
     private bool isRotatingLeft = false;
     private bool isRotatingRight = false;
+
+    #endregion
+
+    #region Properties
 
     public InputActionReference AccelerateActionRef { get { return accelerateActionRef; } }
     public InputActionReference RotateLeftActionRef { get { return rotateLeftActionRef; } }
@@ -18,6 +24,10 @@ public class InputHandler : MonoBehaviour, IInputHandlerController
     public bool IsAccelerating { get { return isAccelerating; } }
     public bool IsRotatingLeft { get { return isRotatingLeft; } }
     public bool IsRotatingRight { get { return isRotatingRight; } }
+
+    #endregion
+
+    #region Unity Functions
 
     private void Start()
     {
@@ -32,6 +42,10 @@ public class InputHandler : MonoBehaviour, IInputHandlerController
         rotateRightActionRef.action.canceled += OnRotateRight;
     }
 
+    #endregion
+
+    #region OnCallback Functions
+
     public void OnShooting(InputAction.CallbackContext callback) => isShooting = callback.action.IsPressed();
 
     public void OnAccelerate(InputAction.CallbackContext callback) => isAccelerating = callback.action.IsPressed();
@@ -39,4 +53,6 @@ public class InputHandler : MonoBehaviour, IInputHandlerController
     public void OnRotateLeft(InputAction.CallbackContext callback) => isRotatingLeft = callback.action.IsPressed();
 
     public void OnRotateRight(InputAction.CallbackContext callback) => isRotatingRight = callback.action.IsPressed();
+
+    #endregion
 }

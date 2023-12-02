@@ -29,17 +29,10 @@ public class ManagerSystem : MonoBehaviour
 
     #region Unity Functions
 
-    // Start is called before the first frame update
     void Awake()
     {
         if (Instance == null) { Instance = this; }
         CreateAndFindManagers();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     #endregion
@@ -50,7 +43,7 @@ public class ManagerSystem : MonoBehaviour
     {
         managers.ForEach(prefabManager =>
         {
-            if (prefabManager != null) 
+            if (prefabManager != null)
             {
                 Manager manager = Instantiate(prefabManager, managerRoot.transform);
 

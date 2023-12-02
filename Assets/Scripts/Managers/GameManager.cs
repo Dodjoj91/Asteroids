@@ -154,6 +154,7 @@ public partial class GameManager : Manager
         ReturnAllActiveObjects();
         SetState(EGameState.StartingGame);
         SetObjectPositionOnCameraView(player.gameObject, playerSpawnPosition);
+        player.InputHandler.ResetInput();
 
         player.gameObject.SetActive(true);
         lives = startLives;

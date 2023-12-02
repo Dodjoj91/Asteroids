@@ -21,6 +21,12 @@ public class PlayerShip : Unit
 
     #endregion
 
+    #region Properties
+
+    public InputHandler InputHandler { get { return inputHandler; } }
+
+    #endregion
+
     #region Unity Functions
 
     protected override void Start()

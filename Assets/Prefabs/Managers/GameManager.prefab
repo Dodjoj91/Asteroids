@@ -45,16 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1460828622795780692, guid: 6f507fd4d95c1bb4aa5e00eda3d88407, type: 3}
-  temporary: 
   playerSpawnPosition: {x: 0.5, y: 0.5}
+  newStartGameTimerMax: 10
   minAsteroidAmount: 10
   maxAsteroidAmount: 20
   minFlyingSaucerAmount: 3
-  maxFlyingSaucerAmount: 7
-  playerData: {fileID: 11400000, guid: 052334a4f0b9fec40b786e0da32eda14, type: 2}
-  asteroidData:
-  - {fileID: 11400000, guid: 0315bf6242ddb6f4bb27871dd962e0ab, type: 2}
-  - {fileID: 11400000, guid: e9e5e3fc2fccdb8448fe3b436cdbeab0, type: 2}
-  flyingSaucerData:
-  - {fileID: 11400000, guid: a9902f37a00ea37408e8ad2ad76bf9e6, type: 2}
-  - {fileID: 11400000, guid: 93d1e84f498811d46a7addd362482d97, type: 2}
+  maxFlyingSaucerAmount: 5

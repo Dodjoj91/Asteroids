@@ -6,7 +6,8 @@ public class UnitDataEnemy : UnitData
 {
     [Header("Enemy"), Space]
     public EEnemyType enemyType;
-    public float maxShootTimer = 1.0f;
+    public float minShootTimer = 0.8f;
+    public float maxShootTimer = 1.2f;
 }
 
 
@@ -15,11 +16,13 @@ public class UnitDataEnemy : UnitData
 public class UnitDataEnemyEditor : UnitDataEditor
 {
     private SerializedProperty enemyType;
+    private SerializedProperty minShootTimer;
     private SerializedProperty maxShootTimer;
 
     private void OnEnable()
     {
         enemyType = serializedObject.FindProperty("enemyType");
+        minShootTimer = serializedObject.FindProperty("minShootTimer");
         maxShootTimer = serializedObject.FindProperty("maxShootTimer");
 
         SetUnitDataSerializedObjects();
@@ -39,6 +42,7 @@ public class UnitDataEnemyEditor : UnitDataEditor
             case EEnemyType.Asteroid:
                 break;
             case EEnemyType.FlyingSaucer:
+                EditorGUILayout.PropertyField(minShootTimer);
                 EditorGUILayout.PropertyField(maxShootTimer);
                 break;
         }

@@ -9,6 +9,7 @@ public class FlyingSaucer : Unit
 
     Vector2 moveDirection;
     float shootTimer = 0.0f;
+    float shootingSpeed = 1.0f;
 
     #endregion
 
@@ -18,6 +19,7 @@ public class FlyingSaucer : Unit
     {
         base.Start();
         enemyData = UnitDataEnemy;
+        shootingSpeed = Random.Range(enemyData.minShootTimer, enemyData.maxShootTimer);
         moveDirection = ExtensionUtility.GetRandomAngleDirection(8);
     }
 
@@ -44,7 +46,7 @@ public class FlyingSaucer : Unit
     {
         shootTimer += Time.deltaTime;
 
-        if (shootTimer > enemyData.maxShootTimer)
+        if (shootTimer > shootingSpeed)
         {
             Shoot();
             shootTimer = 0.0f;

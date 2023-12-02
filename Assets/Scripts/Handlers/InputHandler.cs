@@ -42,6 +42,14 @@ public class InputHandler : MonoBehaviour, IInputHandlerController
         rotateRightActionRef.action.canceled += OnRotateRight;
     }
 
+    public void ResetInput()
+    {
+        isShooting = false;
+        isAccelerating = false;
+        isRotatingLeft = false;
+        isRotatingRight = false;
+    }
+
     #endregion
 
     #region OnCallback Functions

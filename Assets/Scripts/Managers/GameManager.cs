@@ -106,7 +106,9 @@ public partial class GameManager : Manager
         {
             PlayerShip playerShip = ObjectPoolManager.Instance.GetPooledObject(EObjectPooling.PlayerShip).GetComponent<PlayerShip>();
             InputHandler inputHandler = ObjectPoolManager.Instance.GetPooledObject(EObjectPooling.InputHandler).GetComponent<InputHandler>();
+
             inputHandler.transform.SetParent(playerShip.transform, false);
+            inputHandler.ExitActionRef.action.performed += OnExit;
 
             playerShip.AttachInputHandler(inputHandler);
             playerShip.UnitData = playerData[EPlayerType.PlayerShip][0];
@@ -148,6 +150,15 @@ public partial class GameManager : Manager
 
     #endregion
 
+    #region Input Callbacks
+
+    private void OnExit(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        QuitGame();
+    }
+
+    #endregion
+
     #region Game Logic Functions
 
     private void ResetGame()
@@ -164,6 +175,15 @@ public partial class GameManager : Manager
         scoreDelegate?.Invoke(totalScore);
         livesDelegate?.Invoke(lives);
         EndingDelegate?.Invoke(false, false);
+    }
+
+    private void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
     }
 
     private bool IsEnemyListEmpty()
@@ -188,8 +208,8 @@ public partial class GameManager : Manager
     private void SpawnEnemyPreset(ESpawnPreset spawnPreset)
     {
         var op = addressablesManager.LoadAsyncGroup(spawnPreset);
-        if (op.IsValid()) 
-        { 
+        if (op.IsValid())
+        {
             op.Completed += OnAddressableSpawnPresetComplete;
             startingLoadOperations.Add(op);
         }
@@ -339,9 +359,9 @@ public partial class GameManager : Manager
         bool hasBoxCollider = objectToSetPosition.TryGetComponent(out BoxCollider2D boxCollider);
         bool hasSpriteRenderer = objectToSetPosition.TryGetComponent(out SpriteRenderer spriteRenderer);
 
-        Vector2 boxSize = 
-            hasBoxCollider ? 
-            boxCollider.bounds.size : hasSpriteRenderer ? 
+        Vector2 boxSize =
+            hasBoxCollider ?
+            boxCollider.bounds.size : hasSpriteRenderer ?
             spriteRenderer.bounds.size : new Vector2(0.3f, 0.3f);
 
         Vector3 worldPoint = Vector3.zero;

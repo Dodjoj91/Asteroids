@@ -79,3 +79,4 @@ MonoBehaviour:
   rotateLeftActionRef: {fileID: 944475367323843826, guid: 78c353a4bb0d85a459ca9253bbac3a21, type: 3}
   rotateRightActionRef: {fileID: 2699448920302634015, guid: 78c353a4bb0d85a459ca9253bbac3a21, type: 3}
   shootingActionRef: {fileID: 3813521076125483364, guid: 78c353a4bb0d85a459ca9253bbac3a21, type: 3}
+  exitActionRef: {fileID: -4066647478056180226, guid: 78c353a4bb0d85a459ca9253bbac3a21, type: 3}

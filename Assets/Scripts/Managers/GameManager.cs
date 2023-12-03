@@ -65,7 +65,7 @@ public partial class GameManager : Manager
 
     private void Start()
     {
-        SpawnEnemyPreset(ESpawnPreset.AssetPackOne);
+        StartGame();
     }
 
     private void Update()
@@ -165,9 +165,10 @@ public partial class GameManager : Manager
         ReturnAllActiveObjects();
         SetState(EGameState.StartingGame);
         SetObjectPositionOnCameraView(player.gameObject, playerSpawnPosition);
-        player.InputHandler.ResetInput();
 
+        player.InputHandler.ResetInput();
         player.gameObject.SetActive(true);
+
         lives = startLives;
         totalScore = isWinning ? totalScore : 0;
         isWinning = false;
@@ -202,6 +203,11 @@ public partial class GameManager : Manager
         }
 
         return isEmpty;
+    }
+
+    private void StartGame()
+    {
+        SpawnEnemyPreset(ESpawnPreset.AssetPackOne);
     }
 
     private void SpawnEnemyPreset(ESpawnPreset spawnPreset)
@@ -340,9 +346,7 @@ public partial class GameManager : Manager
 
     private void SetObjectPositionOnCameraView(GameObject obj, Vector2 position)
     {
-        Vector3 worldPoint = mainCamera.ViewportToWorldPoint(position);
-        worldPoint.z = mainCamera.transform.position.z + 10.0f;
-        obj.transform.SetPositionAndRotation(worldPoint, Quaternion.identity);
+        obj.transform.SetPositionAndRotation(GetViewportToWorldPoint(position), obj.transform.rotation);
     }
 
     private void SetListOfObjectOnCameraViewRandom(List<GameObject> objects)

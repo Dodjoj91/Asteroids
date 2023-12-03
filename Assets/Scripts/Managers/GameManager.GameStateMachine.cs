@@ -31,25 +31,7 @@ public partial class GameManager
 
     private void UpdateStartingGame()
     {
-        bool hasLoadedAllAssets = true;
-
-        if (startingLoadOperations.Count > 0)
-        {
-            startingLoadOperations.ForEach(op =>
-            {
-                if (!op.IsDone)
-                {
-                    hasLoadedAllAssets = false;
-                    return;
-                }
-            });
-        }
-
-        if (!hasLoadedAllAssets) { return; }
-
-        startingLoadOperations.Clear();
-
-        SetState(EGameState.Playing);
+        if (HasLoadedAllAssets()) { SetState(EGameState.Playing); }
     }
 
     private void UpdatePlayingGame()
@@ -61,11 +43,7 @@ public partial class GameManager
     {
         newStartGameTimer -= Time.deltaTime;
 
-        if (newStartGameTimer < 0.0f)
-        {
-            ResetGame();
-        }
-
+        if (newStartGameTimer < 0.0f) { ResetGame(); }
     }
 
     private void UpdatePausedGame()
@@ -125,6 +103,31 @@ public partial class GameManager
         else { player.gameObject.SetActive(false); }
 
         newStartGameTimer = newStartGameTimerMax;
+    }
+
+    #endregion
+
+    #region Setup Functions
+
+    private bool HasLoadedAllAssets()
+    {
+        bool hasLoadedAllAssets = true;
+
+        if (startingLoadOperations.Count > 0)
+        {
+            startingLoadOperations.ForEach(op =>
+            {
+                if (!op.IsDone)
+                {
+                    hasLoadedAllAssets = false;
+                    return;
+                }
+            });
+
+            if (hasLoadedAllAssets) { startingLoadOperations.Clear(); }
+        }
+
+        return hasLoadedAllAssets;
     }
 
     #endregion

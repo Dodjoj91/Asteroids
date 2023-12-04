@@ -7,8 +7,6 @@ public class AddressablesManager : Manager
 {
     #region Variables
 
-    [SerializeField] private AssetReference test;
-
     private const string enemyPackAssetOneName = "enemyPackOne";
 
     #endregion

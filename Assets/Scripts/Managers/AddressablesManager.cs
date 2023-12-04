@@ -27,11 +27,12 @@ public class AddressablesManager : Manager
         {
             case ESpawnPreset.AssetPackOne:
                 op = Addressables.LoadAssetsAsync<Object>(enemyPackAssetOneName, null);
-                op.Completed += OnAssetLoadComplete;
                 break;
             case ESpawnPreset.AssetPackTwo:
                 break;
         }
+
+        if (op.IsValid()) { op.Completed += OnAssetLoadComplete; }
 
         return op;
     }

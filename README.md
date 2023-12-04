@@ -27,7 +27,7 @@ Having a **ManagerSystem** that spawns all the managers involved that have owner
 
 The Units in the game I really wanted to have a more modular approach with using **ScriptableObjects** to define their stats so we can easily create new ones, in which we can create **UnitDataPlayer** & **UnitDataEnemy**.
 
-For memory I went in using the **Unity's Pooling System**, which is a good and modular system for hooking up different functions for each and every object. I also wanted to use some of the **Addressable Tools** to define enemy packs that wen can load in and out (_**as for this project we only have one pack that we load in at start**_).
+For memory I went in using the **Unity's Pooling System**, which is a modular system for hooking up different functions for each and every object. I also wanted to use some of the **Addressable Tools** to define enemy packs that wen can load in and out (_**as for this project we only have one pack that we load in at start**_).
 
 For just the overall input I went in using **Unity's Input Actions System**, this has good support for setting different types of inputs and also we can hook these easy with functions.
 <br>
@@ -35,4 +35,6 @@ For just the overall input I went in using **Unity's Input Actions System**, thi
 
 **Challenges**:
 
-It was pretty straightforward the project, I haven't delved in to the **Addessables System** that much so it was fun to learn more about that, if I have gotten more time I would like to have a more modular support on how I load and unload assets.
+It was pretty straightforward the project, I haven't delved in to the **Addessables System** that much so it was fun to learn more about that, if I have gotten more time I would like to have a more modular support on how I load and unload assets and really connect them to different enemy waves or levels.
+
+For spawning in particles I wanted them to pool back in when they were done, so was struggling a little bit on how to do that since they didn't have any connection to it. So I decided when we spawned them in the **ObjectPoolManager** that we attach an script to them that will let them pool themselves when the particle is done, which I think worked well for that particular **Particle System**.

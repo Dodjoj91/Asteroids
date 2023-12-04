@@ -27,15 +27,15 @@ public partial class GameManager : Manager
 
 
     private PlayerShip player;
-    private AddressablesManager addressablesManager;
-    private ObjectPoolManager objectPoolManager;
+    private AddressablesManager cacheAddressablesManager;
+    private ObjectPoolManager cacheObjectPoolManager;
 
     private UnityAction<int> scoreDelegate;
     private UnityAction<int> livesDelegate;
     private UnityAction<bool, bool> endingDelegate;
 
     private List<Bullet> spawnedBullets = new List<Bullet>();
-    private Dictionary<EEnemyType, List<GameObject>> enemies = null;
+    private Dictionary<EEnemyType, List<GameObject>> spawnedEnemies = null;
 
     private List<AsyncOperationHandle<IList<Object>>> startingLoadOperations = new List<AsyncOperationHandle<IList<Object>>>();
 
@@ -143,8 +143,8 @@ public partial class GameManager : Manager
 
     public void AttachManagers(AddressablesManager addressablesManager, ObjectPoolManager objectPoolManager)
     {
-        this.addressablesManager = addressablesManager;
-        this.objectPoolManager = objectPoolManager;
+        this.cacheAddressablesManager = addressablesManager;
+        this.cacheObjectPoolManager = objectPoolManager;
     }
 
     #endregion
@@ -190,9 +190,9 @@ public partial class GameManager : Manager
     {
         bool isEmpty = currentState == EGameState.Playing ? true : false;
 
-        if (enemies != null)
+        if (spawnedEnemies != null)
         {
-            foreach (var enemyList in enemies)
+            foreach (var enemyList in spawnedEnemies)
             {
                 if (enemyList.Value.Count > 0)
                 {
@@ -212,7 +212,7 @@ public partial class GameManager : Manager
 
     private void SpawnEnemyPreset(ESpawnPreset spawnPreset)
     {
-        var op = addressablesManager.LoadAsyncGroup(spawnPreset);
+        var op = cacheAddressablesManager.LoadAsyncGroup(spawnPreset);
         if (op.IsValid())
         {
             op.Completed += OnAddressableSpawnPresetComplete;
@@ -224,7 +224,7 @@ public partial class GameManager : Manager
     {
         try
         {
-            enemies ??= new Dictionary<EEnemyType, List<GameObject>>();
+            spawnedEnemies ??= new Dictionary<EEnemyType, List<GameObject>>();
             List<GameObject> listOfEnemies = new List<GameObject>();
 
             for (int i = 0; i < enemyAmount; i++)
@@ -232,13 +232,13 @@ public partial class GameManager : Manager
                 switch (enemyType)
                 {
                     case EEnemyType.Asteroid:
-                        GameObject asteroidObj = objectPoolManager.GetPooledObject(EObjectPooling.Asteroid);
+                        GameObject asteroidObj = cacheObjectPoolManager.GetPooledObject(EObjectPooling.Asteroid);
                         Asteroid asteroidComp = asteroidObj.GetComponent<Asteroid>();
                         asteroidComp.UnitData = enemyData[EEnemyType.Asteroid][0];
                         listOfEnemies.Add(asteroidObj);
                         break;
                     case EEnemyType.FlyingSaucer:
-                        GameObject flyingSaucerObj = objectPoolManager.GetPooledObject(EObjectPooling.FlyingSaucer);
+                        GameObject flyingSaucerObj = cacheObjectPoolManager.GetPooledObject(EObjectPooling.FlyingSaucer);
                         FlyingSaucer flyingSaucerComp = flyingSaucerObj.GetComponent<FlyingSaucer>();
                         flyingSaucerComp.UnitData = enemyData[EEnemyType.FlyingSaucer][0];
                         listOfEnemies.Add(flyingSaucerObj);
@@ -248,7 +248,7 @@ public partial class GameManager : Manager
 
             SetListOfObjectOnCameraViewRandom(listOfEnemies);
 
-            enemies[enemyType] = listOfEnemies;
+            spawnedEnemies[enemyType] = listOfEnemies;
         }
         catch (System.Exception ex)
         {
@@ -289,9 +289,9 @@ public partial class GameManager : Manager
 
     public void RemoveEnemy(EEnemyType enemyType, GameObject asteroidObject)
     {
-        if (!enemies.ContainsKey(enemyType)) { return; }
+        if (!spawnedEnemies.ContainsKey(enemyType)) { return; }
 
-        var enemyList = enemies[enemyType];
+        var enemyList = spawnedEnemies[enemyType];
         if (enemyList.Contains(asteroidObject)) { enemyList.Remove(asteroidObject); }
 
         if (IsEnemyListEmpty())
@@ -308,21 +308,21 @@ public partial class GameManager : Manager
 
     private void ClearEnemies()
     {
-        if (enemies != null)
+        if (spawnedEnemies != null)
         {
-            foreach (var enemyList in enemies)
+            foreach (var enemyList in spawnedEnemies)
             {
                 if (enemyList.Value.Count > 0)
                 {
                     foreach (var enemyObj in enemyList.Value)
                     {
                         EObjectPooling poolingType = ExtensionUtility.ConvertEnemyTypeToObjectType(enemyList.Key);
-                        if (poolingType != EObjectPooling.None) { objectPoolManager.ReturnObject(poolingType, enemyObj); }
+                        if (poolingType != EObjectPooling.None) { cacheObjectPoolManager.ReturnObject(poolingType, enemyObj); }
                     }
                 }
             }
 
-            enemies.Clear();
+            spawnedEnemies.Clear();
         }
     }
 
@@ -332,7 +332,7 @@ public partial class GameManager : Manager
         {
             foreach (var bullet in spawnedBullets)
             {
-                objectPoolManager.ReturnObject(EObjectPooling.Bullet, bullet.gameObject);
+                cacheObjectPoolManager.ReturnObject(EObjectPooling.Bullet, bullet.gameObject);
             }
 
             spawnedBullets.Clear();
